@@ -166,16 +166,17 @@ library(rpart)
 library(rpart.plot)
 
 
-# Growing the tree (tested minsplit 1, 10, 20, 30)
-dtree_full <- rpart(Survived ~ ., 
-                    method = "class", 
-                    data = data,
+set.seed(1)
+train_idx <- sample(1:nrow(data), 0.8 * nrow(data))
+train_set <- data[train_idx, ]
+val_set   <- data[-train_idx, ]
+
+dtree_full <- rpart(Survived ~ .,
+                    method = "class",
+                    data = train_set,
                     control = rpart.control(minsplit = 20, cp = 0))
 
-printcp(dtree_full)
-
-
-best_cp <- 0.002193      
+best_cp <- 0.002193
 dtree_pruned <- prune(dtree_full, cp = best_cp)
 
 # Plotting final tree
@@ -183,12 +184,9 @@ rpart.plot(dtree_pruned, type = 4, extra = 101,
            fallen.leaves = FALSE, tweak = 1.4,
            main = "Pruned Decision Tree")
 
-
-
 ############################################################################################
 # Training
 ############################################################################################
-predictions <- predict(dtree_pruned, data, type = "class")
-confusionMatrix(as.factor(predictions), as.factor(data$Survived), 
-                positive = "1", 
-                mode = "prec_recall")
+predictions <- predict(dtree_pruned, val_set, type = "class")
+confusionMatrix(as.factor(predictions), as.factor(val_set$Survived),
+                positive = "1", mode = "prec_recall")
