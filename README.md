@@ -29,11 +29,7 @@ First of all I thought this will be simple, but every step I think of I get new 
 - Embarked: 2 missing
 
 ### Age
-Age is likely the most critical point because of the "women and children first" rule, so the only ways I see this work out is if:
-
-- a. I use random forest that avoids NA fields — **won't do this**
-- b. I train a model to guess the ages themselves
-- c. Since its only 177 data points, educated guesses? — **won't do this**
+Age is likely the most critical point because of the "women and children first" rule, so the only ways I see this work out is if I train a model to guess the ages themselves
 
 > **EDIT:** The title (Mr, Mrs...) can predict the age with good accuracy.
 
@@ -124,4 +120,4 @@ No need to balance since the % is almost the same as the official survival rate 
 | F1 Score | 0.7586 |
 | Balanced Accuracy | 0.8090 |
 
-> Evaluated on a held-out validation set (80/20 split, seed = 1). Kappa of 0.64 confirms the model performs well beyond random chance even accounting for class imbalance.
+> Evaluated on a held-out validation set (80/20 split, seed = 1).
